@@ -19,7 +19,7 @@
 // Default bezier flattening tolerance in device pixels.
 //--------------------------------------------------------------------------
 
-const float FlatnessDefault = 1.0f/4.0f;
+#define FlatnessDefault (1.0f/4.0f)
 
 //--------------------------------------------------------------------------
 // Graphics and Container State cookies
@@ -32,39 +32,39 @@ typedef UINT     GraphicsContainer;
 // Fill mode constants
 //--------------------------------------------------------------------------
 
-enum FillMode
+typedef enum _FillMode
 {
     FillModeAlternate,        // 0
     FillModeWinding           // 1
-};
+} FillMode;
 
 //--------------------------------------------------------------------------
 // Quality mode constants
 //--------------------------------------------------------------------------
 
-enum QualityMode
+typedef enum _QualityMode
 {
     QualityModeInvalid   = -1,
     QualityModeDefault   = 0,
     QualityModeLow       = 1, // Best performance
     QualityModeHigh      = 2  // Best rendering quality
-};
+} QualityMode;
 
 //--------------------------------------------------------------------------
 // Alpha Compositing mode constants
 //--------------------------------------------------------------------------
 
-enum CompositingMode
+typedef enum _CompositingMode
 {
     CompositingModeSourceOver,    // 0
     CompositingModeSourceCopy     // 1
-};
+} CompositingMode;
 
 //--------------------------------------------------------------------------
 // Alpha Compositing quality constants
 //--------------------------------------------------------------------------
 
-enum CompositingQuality
+typedef enum _CompositingQuality
 {
     CompositingQualityInvalid          = QualityModeInvalid,
     CompositingQualityDefault          = QualityModeDefault,
@@ -72,13 +72,13 @@ enum CompositingQuality
     CompositingQualityHighQuality      = QualityModeHigh,
     CompositingQualityGammaCorrected,
     CompositingQualityAssumeLinear
-};
+} CompositingQuality;
 
 //--------------------------------------------------------------------------
 // Unit constants
 //--------------------------------------------------------------------------
 
-enum Unit
+typedef enum _Unit
 {
     UnitWorld,      // 0 -- World coordinate (non-physical unit)
     UnitDisplay,    // 1 -- Variable -- for PageTransform only
@@ -87,7 +87,7 @@ enum Unit
     UnitInch,       // 4 -- Each unit is 1 inch.
     UnitDocument,   // 5 -- Each unit is 1/300 inch.
     UnitMillimeter  // 6 -- Each unit is 1 millimeter.
-};
+} Unit;
 
 //--------------------------------------------------------------------------
 // MetafileFrameUnit
@@ -99,7 +99,7 @@ enum Unit
 // as defined by GDI.
 //--------------------------------------------------------------------------
 
-enum MetafileFrameUnit
+typedef enum _MetafileFrameUnit
 {
     MetafileFrameUnitPixel      = UnitPixel,
     MetafileFrameUnitPoint      = UnitPoint,
@@ -107,37 +107,37 @@ enum MetafileFrameUnit
     MetafileFrameUnitDocument   = UnitDocument,
     MetafileFrameUnitMillimeter = UnitMillimeter,
     MetafileFrameUnitGdi                        // GDI compatible .01 MM units
-};
+} MetafileFrameUnit;
 
 //--------------------------------------------------------------------------
 // Coordinate space identifiers
 //--------------------------------------------------------------------------
 
-enum CoordinateSpace
+typedef enum _CoordinateSpace
 {
     CoordinateSpaceWorld,     // 0
     CoordinateSpacePage,      // 1
     CoordinateSpaceDevice     // 2
-};
+} CoordinateSpace;
 
 //--------------------------------------------------------------------------
 // Various wrap modes for brushes
 //--------------------------------------------------------------------------
 
-enum WrapMode
+typedef enum _WrapMode
 {
     WrapModeTile,        // 0
     WrapModeTileFlipX,   // 1
     WrapModeTileFlipY,   // 2
     WrapModeTileFlipXY,  // 3
     WrapModeClamp        // 4
-};
+} WrapMode;
 
 //--------------------------------------------------------------------------
 // Various hatch styles
 //--------------------------------------------------------------------------
 
-enum HatchStyle
+typedef enum _HatchStyle
 {
     HatchStyleHorizontal,                   // 0
     HatchStyleVertical,                     // 1
@@ -198,13 +198,13 @@ enum HatchStyle
 
     HatchStyleMin       = HatchStyleHorizontal,
     HatchStyleMax       = HatchStyleTotal - 1,
-};
+} HatchStyle;
 
 //--------------------------------------------------------------------------
 // Dash style constants
 //--------------------------------------------------------------------------
 
-enum DashStyle
+typedef enum _DashStyle
 {
     DashStyleSolid,          // 0
     DashStyleDash,           // 1
@@ -212,24 +212,24 @@ enum DashStyle
     DashStyleDashDot,        // 3
     DashStyleDashDotDot,     // 4
     DashStyleCustom          // 5
-};
+} DashStyle;
 
 //--------------------------------------------------------------------------
 // Dash cap constants
 //--------------------------------------------------------------------------
 
-enum DashCap
+typedef enum _DashCap
 {
     DashCapFlat             = 0,
     DashCapRound            = 2,
     DashCapTriangle         = 3
-};
+} DashCap;
 
 //--------------------------------------------------------------------------
 // Line cap constants (only the lowest 8 bits are used).
 //--------------------------------------------------------------------------
 
-enum LineCap
+typedef enum _LineCap
 {
     LineCapFlat             = 0,
     LineCapSquare           = 1,
@@ -245,29 +245,29 @@ enum LineCap
     LineCapCustom           = 0xff, // custom cap
 
     LineCapAnchorMask       = 0xf0  // mask to check for anchor or not.
-};
+} LineCap;
 
 //--------------------------------------------------------------------------
 // Custom Line cap type constants
 //--------------------------------------------------------------------------
 
-enum CustomLineCapType
+typedef enum _CustomLineCapType
 {
     CustomLineCapTypeDefault         = 0,
     CustomLineCapTypeAdjustableArrow = 1
-};
+} CustomLineCapType;
 
 //--------------------------------------------------------------------------
 // Line join constants
 //--------------------------------------------------------------------------
 
-enum LineJoin
+typedef enum _LineJoin
 {
     LineJoinMiter        = 0,
     LineJoinBevel        = 1,
     LineJoinRound        = 2,
     LineJoinMiterClipped = 3
-};
+} LineJoin;
 
 //--------------------------------------------------------------------------
 // Path point types (only the lowest 8 bits are used.)
@@ -275,7 +275,7 @@ enum LineJoin
 //  The higher 5 bits are reserved for flags.
 //--------------------------------------------------------------------------
 
-enum PathPointType
+typedef enum _PathPointType
 {
     PathPointTypeStart           = 0,    // move
     PathPointTypeLine            = 1,    // line
@@ -288,36 +288,36 @@ enum PathPointType
     // Path types used for advanced path.
 
     PathPointTypeBezier3    = 3,         // cubic Bezier
-};
+} PathPointType;
 
 
 //--------------------------------------------------------------------------
 // WarpMode constants
 //--------------------------------------------------------------------------
 
-enum WarpMode
+typedef enum _WarpMode
 {
     WarpModePerspective,    // 0
     WarpModeBilinear        // 1
-};
+} WarpMode;
 
 //--------------------------------------------------------------------------
 // LineGradient Mode
 //--------------------------------------------------------------------------
 
-enum LinearGradientMode
+typedef enum _LinearGradientMode
 {
     LinearGradientModeHorizontal,         // 0
     LinearGradientModeVertical,           // 1
     LinearGradientModeForwardDiagonal,    // 2
     LinearGradientModeBackwardDiagonal    // 3
-};
+} LinearGradientMode;
 
 //--------------------------------------------------------------------------
 // Region Comine Modes
 //--------------------------------------------------------------------------
 
-enum CombineMode
+typedef enum _CombineMode
 {
     CombineModeReplace,     // 0
     CombineModeIntersect,   // 1
@@ -325,24 +325,24 @@ enum CombineMode
     CombineModeXor,         // 3
     CombineModeExclude,     // 4
     CombineModeComplement   // 5 (Exclude From)
-};
+} CombineMode;
 
 //--------------------------------------------------------------------------
  // Image types
 //--------------------------------------------------------------------------
 
-enum ImageType
+typedef enum _ImageType
 {
     ImageTypeUnknown,   // 0
     ImageTypeBitmap,    // 1
     ImageTypeMetafile   // 2
-};
+} ImageType;
 
 //--------------------------------------------------------------------------
 // Interpolation modes
 //--------------------------------------------------------------------------
 
-enum InterpolationMode
+typedef enum _InterpolationMode
 {
     InterpolationModeInvalid          = QualityModeInvalid,
     InterpolationModeDefault          = QualityModeDefault,
@@ -353,36 +353,36 @@ enum InterpolationMode
     InterpolationModeNearestNeighbor,
     InterpolationModeHighQualityBilinear,
     InterpolationModeHighQualityBicubic
-};
+} InterpolationMode;
 
 //--------------------------------------------------------------------------
 // Pen types
 //--------------------------------------------------------------------------
 
-enum PenAlignment
+typedef enum _PenAlignment
 {
     PenAlignmentCenter       = 0,
     PenAlignmentInset        = 1
-};
+} PenAlignment;
 
 //--------------------------------------------------------------------------
 // Brush types
 //--------------------------------------------------------------------------
 
-enum BrushType
+typedef enum _BrushType
 {
    BrushTypeSolidColor       = 0,
    BrushTypeHatchFill        = 1,
    BrushTypeTextureFill      = 2,
    BrushTypePathGradient     = 3,
    BrushTypeLinearGradient   = 4
-};
+} BrushType;
 
 //--------------------------------------------------------------------------
 // Pen's Fill types
 //--------------------------------------------------------------------------
 
-enum PenType
+typedef enum _PenType
 {
    PenTypeSolidColor       = BrushTypeSolidColor,
    PenTypeHatchFill        = BrushTypeHatchFill,
@@ -390,35 +390,35 @@ enum PenType
    PenTypePathGradient     = BrushTypePathGradient,
    PenTypeLinearGradient   = BrushTypeLinearGradient,
    PenTypeUnknown          = -1
-};
+} PenType;
 
 //--------------------------------------------------------------------------
 // Matrix Order
 //--------------------------------------------------------------------------
 
-enum MatrixOrder
+typedef enum _MatrixOrder
 {
     MatrixOrderPrepend    = 0,
     MatrixOrderAppend     = 1
-};
+} MatrixOrder;
 
 //--------------------------------------------------------------------------
 // Generic font families
 //--------------------------------------------------------------------------
 
-enum GenericFontFamily
+typedef enum _GenericFontFamily
 {
     GenericFontFamilySerif,
     GenericFontFamilySansSerif,
     GenericFontFamilyMonospace
 
-};
+} GenericFontFamily;
 
 //--------------------------------------------------------------------------
 // FontStyle: face types and common styles
 //--------------------------------------------------------------------------
 
-enum FontStyle
+typedef enum _FontStyle
 {
     FontStyleRegular    = 0,
     FontStyleBold       = 1,
@@ -426,13 +426,13 @@ enum FontStyle
     FontStyleBoldItalic = 3,
     FontStyleUnderline  = 4,
     FontStyleStrikeout  = 8
-};
+} FontStyle;
 
 //---------------------------------------------------------------------------
 // Smoothing Mode
 //---------------------------------------------------------------------------
 
-enum SmoothingMode
+typedef enum _SmoothingMode
 {
     SmoothingModeInvalid     = QualityModeInvalid,
     SmoothingModeDefault     = QualityModeDefault,
@@ -444,13 +444,13 @@ enum SmoothingMode
     SmoothingModeAntiAlias8x4 = SmoothingModeAntiAlias,
     SmoothingModeAntiAlias8x8
 #endif //(GDIPVER >= 0x0110) 
-};
+} SmoothingMode;
 
 //---------------------------------------------------------------------------
 // Pixel Format Mode
 //---------------------------------------------------------------------------
 
-enum PixelOffsetMode
+typedef enum _PixelOffsetMode
 {
     PixelOffsetModeInvalid     = QualityModeInvalid,
     PixelOffsetModeDefault     = QualityModeDefault,
@@ -458,13 +458,13 @@ enum PixelOffsetMode
     PixelOffsetModeHighQuality = QualityModeHigh,
     PixelOffsetModeNone,    // No pixel offset
     PixelOffsetModeHalf     // Offset by -0.5, -0.5 for fast anti-alias perf
-};
+} PixelOffsetMode;
 
 //---------------------------------------------------------------------------
 // Text Rendering Hint
 //---------------------------------------------------------------------------
 
-enum TextRenderingHint
+typedef enum _TextRenderingHint
 {
     TextRenderingHintSystemDefault = 0,            // Glyph with system default rendering hint
     TextRenderingHintSingleBitPerPixelGridFit,     // Glyph bitmap with hinting
@@ -472,13 +472,13 @@ enum TextRenderingHint
     TextRenderingHintAntiAliasGridFit,             // Glyph anti-alias bitmap with hinting
     TextRenderingHintAntiAlias,                    // Glyph anti-alias bitmap without hinting
     TextRenderingHintClearTypeGridFit              // Glyph CT bitmap with hinting
-};
+} TextRenderingHint;
 
 //---------------------------------------------------------------------------
 // Metafile Types
 //---------------------------------------------------------------------------
 
-enum MetafileType
+typedef enum _MetafileType
 {
     MetafileTypeInvalid,            // Invalid metafile
     MetafileTypeWmf,                // Standard WMF
@@ -486,24 +486,24 @@ enum MetafileType
     MetafileTypeEmf,                // EMF (not EMF+)
     MetafileTypeEmfPlusOnly,        // EMF+ without dual, down-level records
     MetafileTypeEmfPlusDual         // EMF+ with dual, down-level records
-};
+} MetafileType;
 
 //---------------------------------------------------------------------------
 // Specifies the type of EMF to record
 //---------------------------------------------------------------------------
 
-enum EmfType
+typedef enum _EmfType
 {
     EmfTypeEmfOnly     = MetafileTypeEmf,          // no EMF+, only EMF
     EmfTypeEmfPlusOnly = MetafileTypeEmfPlusOnly,  // no EMF, only EMF+
     EmfTypeEmfPlusDual = MetafileTypeEmfPlusDual   // both EMF+ and EMF
-};
+} EmfType;
 
 //---------------------------------------------------------------------------
 // EMF+ Persistent object types
 //---------------------------------------------------------------------------
 
-enum ObjectType
+typedef enum _ObjectType
 {
     ObjectTypeInvalid,
     ObjectTypeBrush,
@@ -523,7 +523,7 @@ enum ObjectType
     ObjectTypeMax = ObjectTypeCustomLineCap,
 #endif //(GDIPVER >= 0x0110)
     ObjectTypeMin = ObjectTypeBrush
-};
+} ObjectType;
 
 inline BOOL
 ObjectTypeIsValid(
@@ -542,11 +542,11 @@ ObjectTypeIsValid(
 
 #define GDIP_EMFPLUS_RECORD_BASE        0x00004000
 #define GDIP_WMF_RECORD_BASE            0x00010000
-#define GDIP_WMF_RECORD_TO_EMFPLUS(n)   ((EmfPlusRecordType)((n) | GDIP_WMF_RECORD_BASE))
+#define GDIP_WMF_RECORD_TO_EMFPLUS(n)   ((enum _EmfPlusRecordType)((n) | GDIP_WMF_RECORD_BASE))
 #define GDIP_EMFPLUS_RECORD_TO_WMF(n)   ((n) & (~GDIP_WMF_RECORD_BASE))
 #define GDIP_IS_WMF_RECORDTYPE(n)       (((n) & GDIP_WMF_RECORD_BASE) != 0)
 
-enum EmfPlusRecordType
+typedef enum _EmfPlusRecordType
 {
    // Since we have to enumerate GDI records right along with GDI+ records,
    // We list all the GDI records here so that they can be part of the
@@ -844,7 +844,7 @@ enum EmfPlusRecordType
 
     EmfPlusRecordTypeMax = EmfPlusRecordTotal-1,
     EmfPlusRecordTypeMin = EmfPlusRecordTypeHeader,
-};
+} EmfPlusRecordType;
 
 //---------------------------------------------------------------------------
 // StringFormatFlags
@@ -918,7 +918,7 @@ enum EmfPlusRecordType
 
 //---------------------------------------------------------------------------
 
-enum StringFormatFlags
+typedef enum _StringFormatFlags
 {
     StringFormatFlagsDirectionRightToLeft        = 0x00000001,
     StringFormatFlagsDirectionVertical           = 0x00000002,
@@ -931,49 +931,50 @@ enum StringFormatFlags
 
     StringFormatFlagsNoClip                      = 0x00004000,
     StringFormatFlagsBypassGDI                   = 0x80000000
-};
+} StringFormatFlags;
 
 //---------------------------------------------------------------------------
 // StringTrimming
 //---------------------------------------------------------------------------
 
-enum StringTrimming {
+typedef enum _StringTrimming
+{
     StringTrimmingNone              = 0,
     StringTrimmingCharacter         = 1,
     StringTrimmingWord              = 2,
     StringTrimmingEllipsisCharacter = 3,
     StringTrimmingEllipsisWord      = 4,
     StringTrimmingEllipsisPath      = 5
-};
+} StringTrimming;
 
 //---------------------------------------------------------------------------
 // National language digit substitution
 //---------------------------------------------------------------------------
 
-enum StringDigitSubstitute
+typedef enum _StringDigitSubstitute
 {
     StringDigitSubstituteUser        = 0,  // As NLS setting
     StringDigitSubstituteNone        = 1,
     StringDigitSubstituteNational    = 2,
     StringDigitSubstituteTraditional = 3
-};
+} StringDigitSubstitute;
 
 //---------------------------------------------------------------------------
 // Hotkey prefix interpretation
 //---------------------------------------------------------------------------
 
-enum HotkeyPrefix
+typedef enum _HotkeyPrefix
 {
     HotkeyPrefixNone        = 0,
     HotkeyPrefixShow        = 1,
     HotkeyPrefixHide        = 2
-};
+} HotkeyPrefix;
 
 //---------------------------------------------------------------------------
 // String alignment flags
 //---------------------------------------------------------------------------
 
-enum StringAlignment
+typedef enum _StringAlignment
 {
     // Left edge for left-to-right text,
     // right for right-to-left text,
@@ -981,36 +982,36 @@ enum StringAlignment
     StringAlignmentNear   = 0,
     StringAlignmentCenter = 1,
     StringAlignmentFar    = 2
-};
+} StringAlignment;
 
 //---------------------------------------------------------------------------
 // DriverStringOptions
 //---------------------------------------------------------------------------
 
-enum DriverStringOptions
+typedef enum _DriverStringOptions
 {
     DriverStringOptionsCmapLookup             = 1,
     DriverStringOptionsVertical               = 2,
     DriverStringOptionsRealizedAdvance        = 4,
     DriverStringOptionsLimitSubpixel          = 8
-};
+} DriverStringOptions;
 
 //---------------------------------------------------------------------------
 // Flush Intention flags
 //---------------------------------------------------------------------------
 
-enum FlushIntention
+typedef enum _FlushIntention
 {
     FlushIntentionFlush = 0,        // Flush all batched rendering operations
     FlushIntentionSync = 1          // Flush all batched rendering operations
                                     // and wait for them to complete
-};
+} FlushIntention;
 
 //---------------------------------------------------------------------------
 // Image encoder parameter related types
 //---------------------------------------------------------------------------
 
-enum EncoderParameterValueType
+typedef enum _EncoderParameterValueType
 {
     EncoderParameterValueTypeByte           = 1,    // 8-bit unsigned int
     EncoderParameterValueTypeASCII          = 2,    // 8-bit byte containing one 7-bit ASCII
@@ -1034,13 +1035,13 @@ enum EncoderParameterValueType
 #if (GDIPVER >= 0x0110)
     EncoderParameterValueTypePointer        = 9     // a pointer to a parameter defined data.
 #endif //(GDIPVER >= 0x0110)
-};
+} EncoderParameterValueType;
 
 //---------------------------------------------------------------------------
 // Image encoder value types
 //---------------------------------------------------------------------------
 
-enum EncoderValue
+typedef enum _EncoderValue
 {
     EncoderValueColorTypeCMYK,
     EncoderValueColorTypeYCCK,
@@ -1070,32 +1071,32 @@ enum EncoderValue
     EncoderValueColorTypeGray,
     EncoderValueColorTypeRGB,
 #endif
-};
+} EncoderValue;
 
 //---------------------------------------------------------------------------
 // Conversion of Emf To WMF Bits flags
 //---------------------------------------------------------------------------
 
-enum EmfToWmfBitsFlags
+typedef enum _EmfToWmfBitsFlags
 {
     EmfToWmfBitsFlagsDefault          = 0x00000000,
     EmfToWmfBitsFlagsEmbedEmf         = 0x00000001,
     EmfToWmfBitsFlagsIncludePlaceable = 0x00000002,
     EmfToWmfBitsFlagsNoXORClip        = 0x00000004
-};
+} EmfToWmfBitsFlags;
 
 #if (GDIPVER >= 0x0110)
 //---------------------------------------------------------------------------
 // Conversion of Emf To Emf+ Bits flags
 //---------------------------------------------------------------------------
 
-enum ConvertToEmfPlusFlags
+typedef enum _ConvertToEmfPlusFlags
 {
     ConvertToEmfPlusFlagsDefault       = 0x00000000,
     ConvertToEmfPlusFlagsRopUsed       = 0x00000001,
     ConvertToEmfPlusFlagsText          = 0x00000002,
     ConvertToEmfPlusFlagsInvalidRecord = 0x00000004
-};
+} ConvertToEmfPlusFlags;
 #endif
 
 
@@ -1103,12 +1104,12 @@ enum ConvertToEmfPlusFlags
 // Test Control flags
 //---------------------------------------------------------------------------
 
-enum GpTestControlEnum
+typedef enum _GpTestControlEnum
 {
     TestControlForceBilinear = 0,
     TestControlNoICM = 1,
     TestControlGetBuildNumber = 2
-};
+} GpTestControlEnum;
 
 
 
