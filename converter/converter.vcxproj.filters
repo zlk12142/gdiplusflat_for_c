@@ -13,10 +13,36 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="头文件\pcre-7.0">
+      <UniqueIdentifier>{2270d565-b66a-4da5-8541-0f31bd6ddddf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="converter.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="strmanip.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="converter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="strmanip.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="pcre-7.0\pcre.h">
+      <Filter>头文件\pcre-7.0</Filter>
+    </ClInclude>
+    <ClInclude Include="pcre-7.0\pcreposix.h">
+      <Filter>头文件\pcre-7.0</Filter>
+    </ClInclude>
+    <ClInclude Include="pcre-7.0\regex.h">
+      <Filter>头文件\pcre-7.0</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

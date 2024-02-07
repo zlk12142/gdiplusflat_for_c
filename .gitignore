@@ -1,4 +1,7 @@
-Debug
+/Debug/*.exe
+/Debug/*.pdb
+/Debug/*.ilk
+/converter/Debug
 Release
 /ipch
 /*.suo
