@@ -13,10 +13,108 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="头文件\gdiplus_for_c">
+      <UniqueIdentifier>{ea67ceb4-fb94-4210-8454-870f93bd6f83}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
       <Filter>源文件</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="gdiplus_for_c\GdiPlus.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusBase.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusBitmap.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusBrush.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusCachedBitmap.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusColor.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusColorMatrix.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\gdipluseffects.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusEnums.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusFlat.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusFont.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusFontCollection.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusFontFamily.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusGpStubs.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusGraphics.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusHeaders.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusimageAttributes.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusImageCodec.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusImaging.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusInit.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusLineCaps.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusMatrix.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusMem.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusMetaFile.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusMetaHeader.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusPath.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusPen.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusPixelFormats.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusRegion.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusStringFormat.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_for_c\GdiPlusTypes.h">
+      <Filter>头文件\gdiplus_for_c</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

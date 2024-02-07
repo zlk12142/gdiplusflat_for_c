@@ -1,5 +1,6 @@
 #include <tchar.h>
 #include <Windows.h>
+#include "gdiplus_for_c\GdiPlus.h"
 
 #pragma comment(lib, "comctl32.lib")
 #pragma comment(linker, "\"/manifestdependency:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' language='*' publicKeyToken='6595b64144ccf1df'\"")

@@ -76,6 +76,39 @@
   <ItemGroup>
     <ClCompile Include="main.c" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="gdiplus_for_c\GdiPlus.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusBase.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusBitmap.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusBrush.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusCachedBitmap.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusColor.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusColorMatrix.h" />
+    <ClInclude Include="gdiplus_for_c\gdipluseffects.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusEnums.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusFlat.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusFont.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusFontCollection.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusFontFamily.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusGpStubs.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusGraphics.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusHeaders.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusimageAttributes.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusImageCodec.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusImaging.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusInit.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusLineCaps.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusMatrix.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusMem.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusMetaFile.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusMetaHeader.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusPath.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusPen.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusPixelFormats.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusRegion.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusStringFormat.h" />
+    <ClInclude Include="gdiplus_for_c\GdiPlusTypes.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
