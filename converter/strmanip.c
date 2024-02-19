@@ -243,23 +243,52 @@ char *str_replace(const char *search, const char *replace, char *subject, int bu
 	subject[len] = '\0';
 	return subject;
 }
- 
-int trim(char *s)
+
+char *substr_replace(char *string, const char *replacement, int start, int length, int bufsize)
 {
-	int i, j = -1, len = 0;
- 
-	for (i = 0; s[i] != '\0'; i++)
+	char *p;
+	int len;
+	int rlen, slen;
+
+	if (replacement == NULL)
+		replacement = "";
+	rlen = (int)strlen(replacement);
+
+	if (string == NULL)
+		return NULL;
+	slen = (int)strlen(string);
+	if (start < 0)
+		start += slen;
+	if (start < 0)
+		start = 0;
+	if (start > slen)
+		start = slen;
+	if (length == -1 || start + length > slen)
+		length = slen - start;
+
+	len = slen - length + rlen;
+	if (bufsize == -1)
 	{
-		if (j == -1 && s[i] != ' ' && s[i] != '\t')
-			j = 0;
-		if (j != -1)
-		{
-			s[j] = s[i];
-			j++;
-			if (s[i] != ' ' && s[i] != '\t' && s[i] != '\r' && s[i] != '\n')
-				len = j;
-		}
+		p = malloc(len + 1);
+		if (p == NULL)
+			return NULL;
+		if (start != 0)
+			memcpy(p, string, start);
+		if (rlen != 0)
+			memcpy(p + start, replacement, rlen);
+		if (start + length != slen)
+			memcpy(p + start + rlen, string + start + length, slen - start - length);
+		p[len] = '\0';
+		return p;
 	}
-	s[len] = '\0';
-	return len;
+	else
+	{
+		if (bufsize < len + 1)
+			return NULL;
+		if (start + length != slen)
+			memmove(string + start + rlen, string + start + length, slen - start - length);
+		memcpy(string + start, replacement, rlen);
+		string[len] = '\0';
+		return string;
+	}
 }

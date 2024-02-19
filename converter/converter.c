@@ -49,10 +49,7 @@ void converter_convert(const char *filename)
 		state->indent[0] = '\0';
 		if (state->in_class)
 			converter_unindent(state);
-
-		strcpy_s(state->line_tokens_buffer, CONVERTER_MAX_LINE, state->line);
-		trim(state->line_tokens_buffer);
-		converter_split(state->line_tokens_buffer, state->line_tokens, _countof(state->line_tokens));
+		converter_split_line(state);
 
 		if (state->line_tokens[0] != NULL)
 		{
@@ -253,6 +250,7 @@ int converter_process_class_members(struct converter_state *state)
 
 int converter_process_enum_members(struct converter_state *state)
 {
+	char new_name[2 * CONVERTER_MAX_NAME];
 	int ret;
 
 	if (!state->in_enum)
@@ -260,6 +258,14 @@ int converter_process_enum_members(struct converter_state *state)
 
 	if (converter_is_identifier(state->line_tokens[0]))
 	{
+		if (state->in_class)
+		{
+			// enum values in a class should be preceded by the name of the class
+			sprintf_s(new_name, sizeof(new_name), "%s_%s", state->class_name, state->line_tokens[0]);
+			substr_replace(state->line, new_name, state->line_tokens[0] - state->line_tokens_buffer, strlen(state->line_tokens[0]), CONVERTER_MAX_LINE);
+			converter_split_line(state);
+		}
+
 		ret = converter_add_to_strlist(state->enum_values, CONVERTER_MAX_STRLIST, state->line_tokens[0]);
 		if (ret == 1)
 			printf("add enum value %s\n", state->line_tokens[0]);
@@ -274,8 +280,7 @@ int converter_process_special_cases(struct converter_state *state)
 		if (strcmp(state->line_tokens[1], "GDIP_WMF_RECORD_TO_EMFPLUS(n)") == 0)
 		{
 			str_replace("(EmfPlusRecordType)", "(enum _EmfPlusRecordType)", state->line, CONVERTER_MAX_LINE);
-			converter_printf(state, "%s", state->line);
-			return 1;
+			converter_split_line(state);
 		}
 	}
 	return 0;
@@ -440,6 +445,12 @@ int converter_split(char *buffer, char **tokens, int tokens_arrlen)
 	}
 	tokens[i] = NULL;
 	return i;
+}
+
+int converter_split_line(struct converter_state *state)
+{
+	strcpy_s(state->line_tokens_buffer, CONVERTER_MAX_LINE, state->line);
+	return converter_split(state->line_tokens_buffer, state->line_tokens, _countof(state->line_tokens));
 }
 
 void converter_take_enum_comments(struct converter_state *state)

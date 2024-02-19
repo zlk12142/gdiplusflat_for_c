@@ -60,5 +60,6 @@ int converter_process_type_names(struct converter_state *state);
 int converter_process_variables(struct converter_state *state);
 int converter_search_strlist(const char *buffer, const char *value);
 int converter_split(char *buffer, char **tokens, int tokens_arrlen);
+int converter_split_line(struct converter_state *state);
 void converter_take_enum_comments(struct converter_state *state);
 void converter_unindent(struct converter_state *state);
