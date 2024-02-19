@@ -11,6 +11,7 @@ struct converter_state
 	char line_tokens_buffer[CONVERTER_MAX_LINE];
 
 	int in_extern_c;
+	int in_comment_block;
 
 	int in_enum;
 	char enum_name[CONVERTER_MAX_NAME];
@@ -28,6 +29,7 @@ struct converter_state
 	int in_function;
 	char function_name[CONVERTER_MAX_NAME];
 	char function_params[CONVERTER_MAX_STRLIST];
+	char prev_token[CONVERTER_MAX_NAME];
 
 	FILE *fp_out;
 	regex_t regexps[4];
@@ -52,8 +54,11 @@ void converter_init_regexps(struct converter_state *state);
 int converter_is_extern_c(const char **line_tokens);
 int converter_is_identifier(const char *str);
 int converter_printf(struct converter_state *state, const char *fmt, ...);
+void converter_print_strlist(const char *buffer, const char *delimiter);
 int converter_process_class_members(struct converter_state *state);
+int converter_process_comments(struct converter_state *state);
 int converter_process_enum_members(struct converter_state *state);
+int converter_process_function_names(struct converter_state *state);
 int converter_process_special_cases(struct converter_state *state);
 int converter_process_struct_members(struct converter_state *state);
 int converter_process_type_names(struct converter_state *state);

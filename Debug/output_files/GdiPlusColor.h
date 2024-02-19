@@ -47,6 +47,96 @@ typedef struct _Color
     ARGB Argb;
 } Color;
 
+//(1) Color()
+//(2) {
+//(2)     Argb = (ARGB)Color::Black;
+//(0) }
+
+// Construct an opaque Color object with
+// the specified Red, Green, Blue values.
+//
+// Color values are not premultiplied.
+
+//(-1) Color(IN BYTE r,
+//(-1)       IN BYTE g,
+//(1)       IN BYTE b)
+//(2) {
+//(2)     Argb = MakeARGB(255, r, g, b);
+//(0) }
+
+//(-1) Color(IN BYTE a,
+//(-1)       IN BYTE r,
+//(-1)       IN BYTE g,
+//(1)       IN BYTE b)
+//(2) {
+//(2)     Argb = MakeARGB(a, r, g, b);
+//(0) }
+
+//(1) Color(IN ARGB argb)
+//(2) {
+//(2)     Argb = argb;
+//(0) }
+
+//(1) BYTE GetAlpha() const
+//(2) {
+//(2)     return (BYTE) (Argb >> AlphaShift);
+//(0) }
+
+//(1) BYTE GetA() const
+//(2) {
+//(2)     return GetAlpha();
+//(0) }
+
+//(1) BYTE GetRed() const
+//(2) {
+//(2)     return (BYTE) (Argb >> RedShift);
+//(0) }
+
+//(1) BYTE GetR() const
+//(2) {
+//(2)     return GetRed();
+//(0) }
+
+//(1) BYTE GetGreen() const
+//(2) {
+//(2)     return (BYTE) (Argb >> GreenShift);
+//(0) }
+
+//(1) BYTE GetG() const
+//(2) {
+//(2)     return GetGreen();
+//(0) }
+
+//(1) BYTE GetBlue() const
+//(2) {
+//(2)     return (BYTE) (Argb >> BlueShift);
+//(0) }
+
+//(1) BYTE GetB() const
+//(2) {
+//(2)     return GetBlue();
+//(0) }
+
+//(1) ARGB GetValue() const
+//(2) {
+//(2)     return Argb;
+//(0) }
+
+//(1) VOID SetValue(IN ARGB argb)
+//(2) {
+//(2)     Argb = argb;
+//(0) }
+
+//(1) VOID SetFromCOLORREF(IN COLORREF rgb)
+//(2) {
+//(2)     Argb = MakeARGB(255, GetRValue(rgb), GetGValue(rgb), GetBValue(rgb));
+//(0) }
+
+//(1) COLORREF ToCOLORREF() const
+//(2) {
+//(2)     return RGB(GetRed(), GetGreen(), GetBlue());
+//(0) }
+
 
 // Common color constants
 
@@ -213,108 +303,18 @@ enum
     Color_BlueMask    = 0x000000ff
 };
 
-Color()
-{
-    Argb = (ARGB)Color::Black;
-}
-
-// Construct an opaque Color object with
-// the specified Red, Green, Blue values.
-//
-// Color values are not premultiplied.
-
-Color(IN BYTE r,
-      IN BYTE g,
-      IN BYTE b)
-{
-    Argb = MakeARGB(255, r, g, b);
-}
-
-Color(IN BYTE a,
-      IN BYTE r,
-      IN BYTE g,
-      IN BYTE b)
-{
-    Argb = MakeARGB(a, r, g, b);
-}
-
-Color(IN ARGB argb)
-{
-    Argb = argb;
-}
-
-BYTE GetAlpha() const
-{
-    return (BYTE) (Argb >> AlphaShift);
-}
-
-BYTE GetA() const
-{
-    return GetAlpha();
-}
-
-BYTE GetRed() const
-{
-    return (BYTE) (Argb >> RedShift);
-}
-
-BYTE GetR() const
-{
-    return GetRed();
-}
-
-BYTE GetGreen() const
-{
-    return (BYTE) (Argb >> GreenShift);
-}
-
-BYTE GetG() const
-{
-    return GetGreen();
-}
-
-BYTE GetBlue() const
-{
-    return (BYTE) (Argb >> BlueShift);
-}
-
-BYTE GetB() const
-{
-    return GetBlue();
-}
-
-ARGB GetValue() const
-{
-    return Argb;
-}
-
-VOID SetValue(IN ARGB argb)
-{
-    Argb = argb;
-}
-
-VOID SetFromCOLORREF(IN COLORREF rgb)
-{
-    Argb = MakeARGB(255, GetRValue(rgb), GetGValue(rgb), GetBValue(rgb));
-}
-
-COLORREF ToCOLORREF() const
-{
-    return RGB(GetRed(), GetGreen(), GetBlue());
-}
-
 // Assemble A, R, G, B values into a 32-bit integer
 
-static ARGB MakeARGB(IN BYTE a,
-                     IN BYTE r,
-                     IN BYTE g,
-                     IN BYTE b)
-{
-    return (((ARGB) (b) <<  BlueShift) |
-            ((ARGB) (g) << GreenShift) |
-            ((ARGB) (r) <<   RedShift) |
-            ((ARGB) (a) << AlphaShift));
-}
+//(-1) static ARGB MakeARGB(IN BYTE a,
+//(-1)                      IN BYTE r,
+//(-1)                      IN BYTE g,
+//(1)                      IN BYTE b)
+//(2) {
+//(2)     return (((ARGB) (b) <<  BlueShift) |
+//(2)             ((ARGB) (g) << GreenShift) |
+//(2)             ((ARGB) (r) <<   RedShift) |
+//(2)             ((ARGB) (a) << AlphaShift));
+//(0) }
 
 
 

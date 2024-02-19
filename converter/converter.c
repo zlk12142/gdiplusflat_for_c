@@ -53,9 +53,13 @@ void converter_convert(const char *filename)
 
 		if (state->line_tokens[0] != NULL)
 		{
+			if (converter_process_comments(state))
+				continue;
 			if (converter_process_special_cases(state))
 				continue;
 			if (converter_process_type_names(state))
+				continue;
+			if (converter_process_function_names(state))
 				continue;
 			if (converter_process_variables(state))
 				continue;
@@ -119,36 +123,36 @@ int converter_get_strlist_usage(const char *buffer)
 const char *converter_get_type_name(const char **line_tokens, const char *keyword, int *has_curly_brace)
 {
 	static char name[CONVERTER_MAX_NAME];
-	int len;
 
-	if (strcmp(line_tokens[0], keyword) == 0)
+	if (strcmp(line_tokens[0], keyword) != 0)
+		return NULL;
+	
+	if (line_tokens[1] != NULL && line_tokens[2] != NULL && line_tokens[3] != NULL && line_tokens[4] != NULL)
 	{
-		if (line_tokens[1] != NULL && strcmp(line_tokens[1], "__declspec(novtable)") == 0)
-			line_tokens++;
-
-		if (line_tokens[1] != NULL && strcmp(line_tokens[1], "{") != 0)
-		{
-			strcpy_s(name, CONVERTER_MAX_NAME, line_tokens[1]);
-			line_tokens++;
-		}
-		else
-			name[0] = '\0';
-
-		*has_curly_brace = 0;
-		if (line_tokens[1] != NULL && strcmp(line_tokens[1], "{") == 0)
-			*has_curly_brace = 1;
-		else
-		{
-			len = strlen(name);
-			if (len != 0 && name[len - 1] == ';')
-			{
-				*has_curly_brace = -1;
-				name[len - 1] = '\0';
-			}
-		}
-		return name;
+		if (strcmp(line_tokens[1], "__declspec") == 0 && 
+			strcmp(line_tokens[2], "(") == 0 &&
+			strcmp(line_tokens[3], "novtable") == 0 &&
+			strcmp(line_tokens[4], ")") == 0)
+			line_tokens += 4;
 	}
-	return NULL;
+
+	if (line_tokens[1] != NULL && strcmp(line_tokens[1], "{") != 0)
+	{
+		strcpy_s(name, CONVERTER_MAX_NAME, line_tokens[1]);
+		line_tokens++;
+	}
+	else
+		name[0] = '\0';
+
+	*has_curly_brace = 0;
+	if (line_tokens[1] != NULL)
+	{
+		if (strcmp(line_tokens[1], "{") == 0)
+			*has_curly_brace = 1;
+		else if (strcmp(line_tokens[1], ";") == 0)
+			*has_curly_brace = -1;
+	}
+	return name;
 }
 
 void converter_init_regexps(struct converter_state *state)
@@ -156,9 +160,9 @@ void converter_init_regexps(struct converter_state *state)
 	int ret;
 
 	ret = regcomp(&state->regexps[0], "virtual ([\\w_]+) ([\\w_]+ )?([\\w_]+)\\(([^\\)]*)\\)( = 0)?;", 0);
-	ret = regcomp(&state->regexps[1], "const [\\w_]+ ([\\w_]+) = ([^;]+);", 0);
-	ret = regcomp(&state->regexps[2], "([\\w_]+)(?<!return) [\\w_]+;", REG_NOSUB);
-	ret = regcomp(&state->regexps[3], "^\\s*(\\/\\/|\\n?$)", REG_NOSUB);
+	ret += regcomp(&state->regexps[1], "const [\\w_]+ ([\\w_]+) = ([^;]+);", 0);
+	ret += regcomp(&state->regexps[2], "([\\w_\\*]+)(?<!return) [\\w_]+;", REG_NOSUB);
+	ret += regcomp(&state->regexps[3], "^\\s*(\\/\\/|\\n?$)", REG_NOSUB);
 	assert(ret == 0);
 }
 
@@ -182,7 +186,7 @@ int converter_is_identifier(const char *str)
 	for (i = 0; str[i] != '\0'; i++)
 	{
 		c = str[i];
-		if (!isalnum(c) && c != '_')
+		if (!isalnum(c) && c != '_' && c != '~')
 			return 0;
 	}
 	return 1;
@@ -214,6 +218,18 @@ int converter_printf(struct converter_state *state, const char *fmt, ...)
 		ret = vfprintf(state->fp_out, fmt, list);
 	va_end(list);
 	return ret;
+}
+
+void converter_print_strlist(const char *buffer, const char *delimiter)
+{
+	const char *p;
+
+	for (p = buffer; *p != '\0'; p += strlen(p) + 1)
+	{
+		if (p != buffer)
+			printf("%s", delimiter);
+		printf("%s", p);
+	}
 }
 
 int converter_process_class_members(struct converter_state *state)
@@ -248,6 +264,31 @@ int converter_process_class_members(struct converter_state *state)
 	return 0;
 }
 
+int converter_process_comments(struct converter_state *state)
+{
+	int i, len;
+
+	if (strncmp(state->line_tokens[0], "//", 2) == 0)
+	{
+		converter_printf(state, "%s", state->line);
+		return 1;
+	}
+
+	if (strncmp(state->line_tokens[0], "/*", 2) == 0)
+		state->in_comment_block = 1;
+
+	if (state->in_comment_block)
+	{
+		for (i = 0; state->line_tokens[i + 1] != NULL; i++);
+		len = strlen(state->line_tokens[i]);
+		if (len >= 2 && strcmp(state->line_tokens[i] + len - 2, "*/") == 0)
+			state->in_comment_block = 0;
+		converter_printf(state, "%s", state->line);
+		return 1;
+	}
+	return 0;
+}
+
 int converter_process_enum_members(struct converter_state *state)
 {
 	char new_name[2 * CONVERTER_MAX_NAME];
@@ -268,16 +309,112 @@ int converter_process_enum_members(struct converter_state *state)
 
 		ret = converter_add_to_strlist(state->enum_values, CONVERTER_MAX_STRLIST, state->line_tokens[0]);
 		if (ret == 1)
-			printf("add enum value %s\n", state->line_tokens[0]);
+			/*printf("add enum value %s\n", state->line_tokens[0])*/;
 	}
 	return 0;
+}
+
+int converter_process_function_names(struct converter_state *state)
+{
+	int comment = 0;
+	int has_braces = 0;
+	int i, n;
+
+	if (state->in_enum || state->in_struct)
+		return 0;
+
+	if (state->in_function)
+		comment = 1;
+
+	if (state->in_function <= 0)
+	{
+		for (i = 0; state->line_tokens[i] != NULL; i++)
+		{
+			if (strcmp(state->line_tokens[i], "#define") == 0 || strcmp(state->line_tokens[i], "typedef") == 0)
+				break;
+
+			if (state->in_function == 0 && strcmp(state->line_tokens[0], "inline") == 0)
+				comment = 1;
+			else if (state->in_function == 0 && strcmp(state->line_tokens[i], "(") == 0)
+			{
+				// extract function name
+				if (converter_is_identifier(state->prev_token) || 
+					strncmp(state->prev_token, "operator", 8) == 0 ||
+					(i >= 2 && strcmp(state->line_tokens[i - 2], "operator") == 0))
+				{
+					state->in_function = -1;
+					comment = 1;
+					strcpy_s(state->function_name, CONVERTER_MAX_NAME, state->prev_token);
+					converter_clear_strlist(state->function_params);
+				}
+			}
+			else if (state->in_function == -1 && strcmp(state->line_tokens[i], ",") == 0)
+			{
+				// extract function parameters
+				if (converter_is_identifier(state->prev_token))
+					converter_add_to_strlist(state->function_params, CONVERTER_MAX_STRLIST, state->prev_token);
+			}
+			else if (state->in_function == -1 && strcmp(state->line_tokens[i], ")") == 0)
+			{
+				// enter function body
+				if (converter_is_identifier(state->prev_token))
+					converter_add_to_strlist(state->function_params, CONVERTER_MAX_STRLIST, state->prev_token);
+				printf("enter function %s(", state->function_name);
+				converter_print_strlist(state->function_params, ",");
+				printf(")\n");
+				state->in_function = 1;
+			}
+			else if (state->in_function == 1 && strcmp(state->line_tokens[i], ";") == 0)
+			{
+				printf("skip function declaration\n");
+				state->in_function = 0;
+				if (regexec(&state->regexps[2], state->line, 0, NULL, 0) == REG_NOMATCH) // is not variable?
+					comment = 1;
+			}
+			strncpy_s(state->prev_token, CONVERTER_MAX_NAME, state->line_tokens[i], CONVERTER_MAX_NAME - 1);
+		}
+	}
+	else
+	{
+		n = 0;
+		for (i = 0; state->line_tokens[i] != NULL; i++)
+		{
+			if (strcmp(state->line_tokens[i], "{") == 0)
+			{
+				has_braces = 1;
+				n++;
+			}
+			else if (strcmp(state->line_tokens[i], "}") == 0)
+			{
+				has_braces = 1;
+				n--;
+			}
+		}
+		if (has_braces)
+		{
+			state->in_function += n;
+			if (state->in_function == 1)
+			{
+				// exit function body
+				state->in_function = 0;
+				printf("exit function %s\n", state->function_name);
+			}
+		}
+	}
+
+	if (comment)
+	{
+		//converter_printf(state, "// %s", state->line);
+		converter_printf(state, "//(%d) %s", state->in_function, state->line);
+	}
+	return comment;
 }
 
 int converter_process_special_cases(struct converter_state *state)
 {
 	if (strcmp(state->line_tokens[0], "#define") == 0 && state->line_tokens[1] != NULL)
 	{
-		if (strcmp(state->line_tokens[1], "GDIP_WMF_RECORD_TO_EMFPLUS(n)") == 0)
+		if (strcmp(state->line_tokens[1], "GDIP_WMF_RECORD_TO_EMFPLUS") == 0)
 		{
 			str_replace("(EmfPlusRecordType)", "(enum _EmfPlusRecordType)", state->line, CONVERTER_MAX_LINE);
 			converter_split_line(state);
@@ -362,7 +499,7 @@ int converter_process_type_names(struct converter_state *state)
 		return 1;
 	}
 	
-	if (strcmp(state->line_tokens[0], "};") == 0 && state->line_tokens[1] == NULL)
+	if (strcmp(state->line_tokens[0], "}") == 0 && state->line_tokens[1] != NULL && strcmp(state->line_tokens[1], ";") == 0)
 	{
 		if (state->in_enum)
 		{
@@ -432,16 +569,37 @@ int converter_search_strlist(const char *buffer, const char *value)
 
 int converter_split(char *buffer, char **tokens, int tokens_arrlen)
 {
-	char *context;
-	char *p;
-	int i;
-
-	tokens[tokens_arrlen - 1] = NULL;
-	for (i = 0; (p = strtok_s(buffer, " \t\r\n", &context)) != NULL; i++)
+	int end = 1;
+	int i = 0;
+	wchar_t *delimiter = L",()[]{};";
+	wchar_t *wp;
+	
+	while (*buffer != '\0')
 	{
-		converter_assert(i <= tokens_arrlen - 2, i);
-		tokens[i] = p;
-		buffer = NULL;
+		if (isspace((unsigned char)*buffer))
+		{
+			*buffer = '\0';
+			end = 1;
+		}
+		else
+		{
+			converter_assert(i <= tokens_arrlen - 2, i);
+			wp = wcschr(delimiter, *buffer);
+			if (wp != NULL)
+			{
+				*buffer = '\0';
+				tokens[i] = (char *)wp;
+				i++;
+				end = 1;
+			}
+			else if (end)
+			{
+				tokens[i] = buffer;
+				i++;
+				end = 0;
+			}
+		}
+		buffer++;
 	}
 	tokens[i] = NULL;
 	return i;
@@ -487,13 +645,20 @@ void converter_take_enum_comments(struct converter_state *state)
 
 void converter_unindent(struct converter_state *state)
 {
-	char *spaces = "    ";
-	int len;
+	char spaces[5];
+	int i;
 
-	len = strlen(spaces);
-	if (strncmp(state->line, spaces, len) == 0)
+	for (i = 0; i < 4; i++)
+	{
+		if (state->line[i] != ' ')
+			break;
+		spaces[i] = ' ';
+	}
+	spaces[i] = '\0';
+
+	if (i != 0)
 	{
 		strcat_s(state->indent, sizeof(state->indent), spaces);
-		memmove(state->line, state->line + len, strlen(state->line) + 1 - len);
+		memmove(state->line, state->line + i, strlen(state->line) + 1 - i);
 	}
 }

@@ -525,13 +525,13 @@ typedef enum _ObjectType
     ObjectTypeMin = ObjectTypeBrush
 } ObjectType;
 
-inline BOOL
-ObjectTypeIsValid(
-    ObjectType      type
-    )
-{
-    return ((type >= ObjectTypeMin) && (type <= ObjectTypeMax));
-}
+//(0) inline BOOL
+//(-1) ObjectTypeIsValid(
+//(-1)     ObjectType      type
+//(1)     )
+//(2) {
+//(2)     return ((type >= ObjectTypeMin) && (type <= ObjectTypeMax));
+//(0) }
 
 //---------------------------------------------------------------------------
 // EMF+ Records
